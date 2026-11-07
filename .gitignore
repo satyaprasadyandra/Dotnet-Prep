@@ -1,0 +1,9 @@
+node_modules/
+client/node_modules/
+client/dist/
+data/tracker-state.json
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
