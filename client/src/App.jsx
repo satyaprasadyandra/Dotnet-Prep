@@ -78,6 +78,8 @@ function App() {
             startHere={state.startHere}
             dailyTracker={state.dailyTracker}
             topicMaster={state.topicMaster}
+            homeShortcuts={state.homeShortcuts}
+            updateState={updateState}
           />
         )}
         {tab === "daily" && <DailyTracker dailyTracker={state.dailyTracker} updateState={updateState} />}

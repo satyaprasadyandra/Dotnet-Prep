@@ -1,4 +1,6 @@
-export function Dashboard({ startHere, dailyTracker, topicMaster }) {
+import { HomeShortcuts } from "./HomeShortcuts";
+
+export function Dashboard({ startHere, dailyTracker, topicMaster, homeShortcuts, updateState }) {
   const completedDays = dailyTracker.filter((d) => d.status === "Completed").length;
   const completedTopics = topicMaster.filter((t) => t.status === "Completed").length;
   const inProgressDays = dailyTracker.filter((d) => d.status === "In Progress").length;
@@ -7,6 +9,8 @@ export function Dashboard({ startHere, dailyTracker, topicMaster }) {
     <div className="panel">
       <h2>182-Day Master Plan</h2>
       <p className="subtitle">Product Company .NET Interview Preparation</p>
+
+      <HomeShortcuts shortcuts={homeShortcuts} updateState={updateState} />
 
       <div className="stats-grid">
         <div className="stat-card">

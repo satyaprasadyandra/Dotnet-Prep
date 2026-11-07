@@ -124,33 +124,13 @@ body {
   color: var(--muted);
   padding: 0.45rem 0.85rem;
   border-radius: 999px;
-  .physical-table th:first-child,
-  .physical-table td:first-child {
-    width: 36px;
-    min-width: 36px;
-    max-width: 36px;
-    padding-left: 0.35rem;
-    padding-right: 0.15rem;
-  }
-  .physical-table th:not(:first-child):not(:last-child),
-  .physical-table td.tick-cell {
-    width: 36px;
-    min-width: 36px;
-    max-width: 36px;
-  }
-  .physical-table th:last-child,
-  .physical-table td:last-child {
-    width: auto;
-    min-width: 90px;
-    padding-left: 0.5rem;
-  }
-  .physical-table .tick-cell {
-    text-align: center;
-  }
-  .physical-table label {
-    cursor: pointer;
-    font-size: 1rem;
-  }
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.tabs button:hover {
+  border-color: var(--accent);
+  color: var(--text);
 }
 
 .tabs button.active {
@@ -1083,6 +1063,143 @@ textarea {
   margin-top: 0.25rem;
 }
 
+.home-shortcuts {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.15rem 1.15rem;
+  margin-bottom: 1.25rem;
+}
+
+.home-shortcuts-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.home-shortcuts-header h3 {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+}
+
+.home-shortcuts-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.shortcut-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.shortcut-tile-wrap {
+  position: relative;
+}
+
+.shortcut-tile {
+  width: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.shortcut-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  position: relative;
+}
+
+.shortcut-icon img {
+  width: 28px;
+  height: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.shortcut-letter {
+  position: absolute;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: white;
+}
+
+.shortcut-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  max-width: 92px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shortcut-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1;
+  font-size: 0.85rem;
+}
+
+.shortcut-remove:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.shortcut-form {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr auto auto;
+  gap: 0.65rem;
+  align-items: end;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+
+.shortcut-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.shortcut-form input {
+  width: 100%;
+}
+
+.shortcut-color-field input {
+  height: 34px;
+  padding: 0.15rem;
+  min-width: 48px;
+}
+
+.shortcut-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.8rem;
+}
+
 @media (max-width: 768px) {
   .info-row {
     grid-template-columns: 1fr;
@@ -1112,5 +1229,9 @@ textarea {
   .section-toolbar {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .shortcut-form {
+    grid-template-columns: 1fr;
   }
 }

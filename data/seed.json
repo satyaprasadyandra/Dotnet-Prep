@@ -18,6 +18,26 @@
     "5": "Use Subject Progress to see completed, pending and percentage by subject.",
     "6": "Course column shows which Udemy course section is relevant; do not watch every hour linearly."
   },
+  "homeShortcuts": [
+    {
+      "id": "udemy",
+      "label": "Udemy",
+      "url": "https://www.udemy.com/home/my-courses/",
+      "color": "#A435F0"
+    },
+    {
+      "id": "dsa",
+      "label": "DSA",
+      "url": "https://takeuforward.org/prep-hub/strivers-a2z-dsa-sheet",
+      "color": "#2563eb"
+    },
+    {
+      "id": "sql",
+      "label": "SQL",
+      "url": "https://sqlbolt.com/lesson/introduction",
+      "color": "#0ea5e9"
+    }
+  ],
   "physicalTracker": [
     {
       "week": 1,
