@@ -3,7 +3,7 @@ import { useState } from "react";
 function faviconUrl(url) {
   try {
     const host = new URL(url).hostname;
-    return `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+    return "https://www.google.com/s2/favicons?domain=" + host + "&sz=64";
   } catch {
     return "";
   }
@@ -13,7 +13,7 @@ function normalizeUrl(value) {
   const trimmed = value.trim();
   if (!trimmed) return "";
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return `https://${trimmed}`;
+  return "https://" + trimmed;
 }
 
 export function HomeShortcuts({ shortcuts, updateState }) {
@@ -22,14 +22,20 @@ export function HomeShortcuts({ shortcuts, updateState }) {
   const [url, setUrl] = useState("");
   const [color, setColor] = useState("#512bd4");
   const [error, setError] = useState("");
+  const [savingShortcut, setSavingShortcut] = useState(false);
 
-  const items = shortcuts || [];
+  const items = Array.isArray(shortcuts) ? shortcuts : [];
 
-  const persist = (next) => {
-    updateState((prev) => ({ ...prev, homeShortcuts: next }));
-  };
+  const persist = (next) =>
+    updateState((prev) => ({ ...prev, homeShortcuts: next }), {
+      immediate: true,
+      rollback: (current, previous) => ({
+        ...(current || previous),
+        homeShortcuts: items,
+      }),
+    });
 
-  const addShortcut = (e) => {
+  const addShortcut = async (e) => {
     e.preventDefault();
     const name = label.trim();
     const href = normalizeUrl(url);
@@ -43,19 +49,29 @@ export function HomeShortcuts({ shortcuts, updateState }) {
       setError("Enter a valid URL, for example https://leetcode.com");
       return;
     }
-    persist([
+
+    setSavingShortcut(true);
+    setError("");
+    const saved = await persist([
       ...items,
       { id: crypto.randomUUID(), label: name, url: href, color },
     ]);
+    setSavingShortcut(false);
+    if (!saved) {
+      setError("Could not save this icon. Check that the app server is running, then try again.");
+      return;
+    }
+
     setLabel("");
     setUrl("");
     setColor("#512bd4");
-    setError("");
     setShowForm(false);
   };
 
-  const removeShortcut = (id) => {
-    persist(items.filter((item) => item.id !== id));
+  const removeShortcut = async (id) => {
+    setError("");
+    const saved = await persist(items.filter((item) => item.id !== id));
+    if (!saved) setError("Could not save that change. Check that the app server is running.");
   };
 
   return (
@@ -95,7 +111,7 @@ export function HomeShortcuts({ shortcuts, updateState }) {
             <button
               type="button"
               className="shortcut-remove"
-              title={`Remove ${item.label}`}
+              title={"Remove " + item.label}
               onClick={() => removeShortcut(item.id)}
             >
               ×
@@ -127,12 +143,12 @@ export function HomeShortcuts({ shortcuts, updateState }) {
             Color
             <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
           </label>
-          <button type="submit" className="btn-add-qa">
-            Save icon
+          <button type="submit" className="btn-add-qa" disabled={savingShortcut}>
+            {savingShortcut ? "Saving..." : "Save icon"}
           </button>
-          {error && <p className="shortcut-error">{error}</p>}
         </form>
       )}
+      {error && <p className="shortcut-error" role="alert">{error}</p>}
     </section>
   );
 }

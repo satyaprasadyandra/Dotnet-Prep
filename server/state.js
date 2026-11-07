@@ -118,7 +118,7 @@ const DEFAULT_HOME_SHORTCUTS = [
 ];
 
 function normalizeHomeShortcuts(list) {
-  if (!Array.isArray(list) || list.length === 0) return DEFAULT_HOME_SHORTCUTS;
+  if (!Array.isArray(list)) return DEFAULT_HOME_SHORTCUTS.map((item) => ({ ...item }));
   return list
     .filter((item) => item && item.label && item.url)
     .map((item) => ({
@@ -136,7 +136,7 @@ function loadState() {
   merged.topicMaster = normalizeTopics(merged.topicMaster);
   merged.subjectProgress = computeSubjectProgress(merged.topicMaster || []);
   merged.homeShortcuts = normalizeHomeShortcuts(
-    saved.homeShortcuts || seed.homeShortcuts
+    saved.homeShortcuts ?? seed.homeShortcuts
   );
   merged.lastSaved = saved.lastSaved || null;
   return merged;
@@ -150,7 +150,7 @@ function saveState(state) {
     physicalTracker: state.physicalTracker,
     courseMap: state.courseMap,
     milestones: state.milestones,
-    homeShortcuts: normalizeHomeShortcuts(state.homeShortcuts),
+    homeShortcuts: normalizeHomeShortcuts(state.homeShortcuts ?? DEFAULT_HOME_SHORTCUTS),
     lastSaved: new Date().toISOString(),
   };
   writeJson(STATE_PATH, payload);
